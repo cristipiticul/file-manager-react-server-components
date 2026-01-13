@@ -1,5 +1,6 @@
 import rsc from '@vitejs/plugin-rsc'
 import react from '@vitejs/plugin-react'
+import tsconfigPaths from "vite-tsconfig-paths"
 import { defineConfig } from 'vite'
 // import inspect from "vite-plugin-inspect";
 import nitro from "@hiogawa/vite-plugin-nitro"
@@ -33,6 +34,7 @@ export default defineConfig({
         // preset: 'vercel',
       },
     }),
+    tsconfigPaths(),
   ],
 
   // specify entry point for each environment.

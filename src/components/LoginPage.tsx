@@ -40,6 +40,9 @@ export function LoginPage() {
 
         // Clear the form
         setUsername('')
+
+        // Redirect to dashboard after successful login
+        window.history.pushState(null, '', '/dashboard')
       } else {
         // Handle error
         const errorMessage = result.error || 'Login failed'
@@ -101,7 +104,7 @@ export function LoginPage() {
               placeholder="Enter username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyPress}
               size="lg"
               aria-label="Username"
               disabled={isLoading}

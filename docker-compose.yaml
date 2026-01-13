@@ -1,14 +1,27 @@
-# Usage
-#   Start:              docker compose up
-#   With helpers:       docker compose -f docker-compose.yml -f ./dev/docker-compose.dev.yml up
-#   Stop:               docker compose down
-#   Destroy:            docker compose -f docker-compose.yml -f ./dev/docker-compose.dev.yml down -v --remove-orphans
-#   Reset everything:  ./reset.sh
-
-name: supabase
+name: file-manager
 
 services:
+  # The actual app
+  app:
+    container_name: react-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      # Vite dev server needs to be accessible from host
+      VITE_HOST: 0.0.0.0
+    command: sh -c "pnpm run db:migrate && pnpm run dev"
 
+  # Everything below is Supabase-related
   studio:
     container_name: supabase-studio
     image: supabase/studio:2025.12.17-sha-43f4f7f

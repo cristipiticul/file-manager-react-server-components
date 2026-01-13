@@ -1,40 +1,33 @@
-# Vite + RSC
+# Architecture
 
-This example shows how to set up a React application with [Server Component](https://react.dev/reference/rsc/server-components) features on Vite using [`@vitejs/plugin-rsc`](https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-rsc).
+The app is developed in [React Server Components (RSC)](https://react.dev/reference/rsc/server-components) which is similar to NextJS but newer, and I wanted to learn it. I chose this for simplicity (monorepo for front-end + back-end) and simple deployment. Started from the template from [`@vitejs/plugin-rsc`](https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-rsc).
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vitejs/vite-plugin-react/tree/main/packages/plugin-rsc/examples/starter)
+For storage, I went with Supabase, because:
+1. It offers both a relational database (PostgreSQL) and file storage.
+2. Simple deployment - it's a managed service.
 
-```sh
-# run dev server
-npm run dev
+# Run locally
 
-# build for production and preview
-npm run build
-npm run preview
-```
+Run with `docker compose up` and open <http://localhost:5173/>.
 
-## API usage
+# Deployment
 
-See [`@vitejs/plugin-rsc`](https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-rsc) for the documentation.
+Prerequisites: [GitHub](https://github.com/), [Supabase](https://supabase.com/), and [Vercel](https://vercel.com/) accounts
 
-- [`vite.config.ts`](./vite.config.ts)
-  - `@vitejs/plugin-rsc/plugin`
-- [`./src/framework/entry.rsc.tsx`](./src/framework/entry.rsc.tsx)
-  - `@vitejs/plugin-rsc/rsc`
-  - `import.meta.viteRsc.loadModule`
-- [`./src/framework/entry.ssr.tsx`](./src/framework/entry.ssr.tsx)
-  - `@vitejs/plugin-rsc/ssr`
-  - `import.meta.viteRsc.loadBootstrapScriptContent`
-  - `rsc-html-stream/server`
-- [`./src/framework/entry.browser.tsx`](./src/framework/entry.browser.tsx)
-  - `@vitejs/plugin-rsc/browser`
-  - `rsc-html-stream/client`
+Supabase setup:
+1. Create an organization & project (save somewhere the database password)
+2. Go to Settings > Data API > disable the "Enable Data API" checkbox (for security)
 
-## Notes
+Can be deployed on Vercel using the following setup:
+1. Fork the code to a GitHub repository
+2. Create an account on <https://vercel.com>
+3. Click "Add New..." > Project
+4. Import the GitHub repository
+5. Choose Framework Preset: Nitro
+6. TODO!!! Add Environment Variables -- supabase
+7. Click Deploy
 
-- [`./src/framework/entry.{browser,rsc,ssr}.tsx`](./src/framework) (with inline comments) provides an overview of how low level RSC (React flight) API can be used to build RSC framework.
-- You can use [`vite-plugin-inspect`](https://github.com/antfu-collective/vite-plugin-inspect) to understand how `"use client"` and `"use server"` directives are transformed internally.
+# Development tools
 
-## Deployment
-
-See [vite-plugin-rsc-deploy-example](https://github.com/hi-ogawa/vite-plugin-rsc-deploy-example)
+- Generate migrations: `pnpm run db:generate --name create_users_table`
+- Database management: <http://localhost:8000/> and use `DASHBOARD_USERNAME` & `DASHBOARD_PASSWORD` env vars for login

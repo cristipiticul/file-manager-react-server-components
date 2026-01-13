@@ -8,7 +8,7 @@ For storage, I went with Supabase, because:
 
 # Run locally
 
-Run with `docker compose up` and open <http://localhost:5173/>.
+Run with `docker compose --env-file .env.local up` and open <http://localhost:5173/>.
 
 # Deployment
 

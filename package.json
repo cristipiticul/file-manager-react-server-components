@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "drizzle-kit migrate && vite build",
+    "build": "echo $DATABASE_URL && drizzle-kit migrate && vite build",
     "preview": "node .output/server/index.mjs",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
